@@ -51,9 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataStructures\DataObjects\StaticMemoryMapping.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DataStructures\IResource.cs" />
     <Compile Include="DataStructures\DataObjects\SFAdvancedObjectScript.cs" />
     <Compile Include="DataStructures\DataObjects\RefAdvancedObject.cs" />
