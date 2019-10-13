@@ -469,16 +469,21 @@ namespace NewSF64Toolkit.OpenGL.F3DEX
             GeometryMode = F3DEXParser.Constants.G_LIGHTING | F3DEXParser.Constants.F3DEX_SHADING_SMOOTH;
             ChangedModes |= F3DEXParser.Constants.CHANGED_GEOMETRYMODE;
 
-            while (DLStackPos >= 0)
+            while (DLStackPos >= 0x0)
             {
+                if (currentBytes.Length <= DListAddress - Offset)
+                {
+                    break;
+                }
                 SplitAddress(DListAddress, out Segment, out Offset);
 
                 w0 = ByteHelper.ReadUInt(currentBytes, Offset);//Read32(RAM[Segment].Data, Offset);
                 w1 = ByteHelper.ReadUInt(currentBytes, Offset + 4);//RRead32(RAM[Segment].Data, Offset + 4);
-
-                wp0 = ByteHelper.ReadUInt(currentBytes, Offset - 8);//Read32(RAM[Segment].Data, Offset - 8);
-                wp1 = ByteHelper.ReadUInt(currentBytes, Offset - 4);//Read32(RAM[Segment].Data, Offset - 4);
-
+                if (Offset > 7)
+                {
+                    wp0 = ByteHelper.ReadUInt(currentBytes, Offset - 8);//Read32(RAM[Segment].Data, Offset - 8);
+                    wp1 = ByteHelper.ReadUInt(currentBytes, Offset - 4);//Read32(RAM[Segment].Data, Offset - 4);
+                }
                 wn0 = ByteHelper.ReadUInt(currentBytes, Offset + 8);//Read32(RAM[Segment].Data, Offset + 8);
                 wn1 = ByteHelper.ReadUInt(currentBytes, Offset + 12);//Read32(RAM[Segment].Data, Offset + 12);
 
@@ -524,6 +529,10 @@ namespace NewSF64Toolkit.OpenGL.F3DEX
 
 	        for(i = 0; i < 4; i++) {
 		        for(j = 0; j < 4; j++) {
+                    if (TempOffset >= (uint)currentBytes.Length)
+                    {
+                        break;
+                    }
                     MtxTemp1 = ByteHelper.ReadShort(currentBytes, TempOffset);//((RAM[Segment].Data[Offset		] * 0x100) + RAM[Segment].Data[Offset + 1		]);
                     MtxTemp2 = ByteHelper.ReadShort(currentBytes, TempOffset + 32);//((RAM[Segment].Data[Offset + 32	] * 0x100) + RAM[Segment].Data[Offset + 33	]);
 			        Matrix[i * 4 + j] = ((MtxTemp1 << 16) | MtxTemp2) * fRecip;
@@ -834,26 +843,31 @@ namespace NewSF64Toolkit.OpenGL.F3DEX
 
 	        ushort Raw;
 	        char R, G, B, A;
-
-	        uint PalLoop;
-
-	        for(PalLoop = 0; PalLoop < PalSize; PalLoop++) {
-                Raw = ByteHelper.ReadUShort(currentBytes, PalOffset);//(RAM[PalSegment].Data[PalOffset] << 8) | RAM[PalSegment].Data[PalOffset + 1];
-
+            uint PropSet = PalOffset;
+            uint PalLoop;
+            uint Cero = 0;
+	        for(PalLoop = PropSet; PalLoop < PropSet + PalSize; Cero++) {
+                if (PalOffset <= PalSize)
+                {
+                    Raw = ByteHelper.ReadUShort(currentBytes, PalOffset);//(RAM[PalSegment].Data[PalOffset] << 8) | RAM[PalSegment].Data[PalOffset + 1];
+                }
+                else
+                {
+                    break;
+                }
 		        R = (char)((Raw & 0xF800) >> 8);
                 G = (char)(((Raw & 0x07C0) << 5) >> 8);
                 B = (char)(((Raw & 0x003E) << 18) >> 16);
 
                 if (((Raw & 0x0001) != 0x0000)) { A = (char)0xFF; } else { A = (char)0x00; }
 
-		        Palettes[PalLoop].R = R;
-                Palettes[PalLoop].G = G;
-                Palettes[PalLoop].B = B;
-                Palettes[PalLoop].A = A;
+		        Palettes[Cero].R = R;
+                Palettes[Cero].G = G;
+                Palettes[Cero].B = B;
+                Palettes[Cero].A = A;
 
 		        PalOffset += 2;
 
-                //if (!MemoryManager.Instance.LocateBank((byte)PalSegment, PalOffset).IsValid()) break;
 	        }
         }
 
