@@ -99,7 +99,7 @@ namespace NewSF64Toolkit.DataStructures.DMA
             }
 
             //Make the final level ending entry
-            ByteHelper.WriteUShort(0xFFFF, bytes, levelObjectOffset + 0x10);
+            ByteHelper.WriteUShort(0xFFFF, bytes, _levelHeaderOffset + LevelHeader.Size - 2);
 
             return bytes;
         }
