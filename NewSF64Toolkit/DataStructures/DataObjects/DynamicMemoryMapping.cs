@@ -189,8 +189,6 @@ namespace NewSF64Toolkit.DataStructures.DataObjects
 
             return bytes;
         }
-
-
         public bool LoadFromBytes(byte[] bytes)
         {
             //throw unimplemented;
