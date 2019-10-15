@@ -43,6 +43,12 @@ namespace NewSF64Toolkit.DataStructures.DMA
             //_f3dexData.AddBytesTo(bytes);
             return bytes;
         }
+        public virtual byte[] GetAsBytesPlus()
+        {
+            byte[] bytes = _dmaData.GetAsBytesPlus();
+            //_f3dexData.AddBytesTo(bytes);
+            return bytes;
+        }
 
         public virtual bool LoadFromBytes(byte[] bytes)
         {
