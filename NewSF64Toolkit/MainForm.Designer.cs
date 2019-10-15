@@ -135,7 +135,7 @@
             // 
             // menuStripFileLoadDMA
             // 
-            this.menuStripFileLoadDMA.Enabled = false;
+            this.menuStripFileLoadDMA.Enabled = true;
             this.menuStripFileLoadDMA.Name = "menuStripFileLoadDMA";
             this.menuStripFileLoadDMA.Size = new System.Drawing.Size(173, 22);
             this.menuStripFileLoadDMA.Text = "Load DMA...";
@@ -143,7 +143,7 @@
             // 
             // menuStripFileSaveDMA
             // 
-            this.menuStripFileSaveDMA.Enabled = false;
+            this.menuStripFileSaveDMA.Enabled = true;
             this.menuStripFileSaveDMA.Name = "menuStripFileSaveDMA";
             this.menuStripFileSaveDMA.Size = new System.Drawing.Size(173, 22);
             this.menuStripFileSaveDMA.Text = "Save DMA...";
