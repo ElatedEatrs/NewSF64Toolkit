@@ -175,6 +175,21 @@ namespace NewSF64Toolkit.DataStructures.DataObjects
 
             return bytes;
         }
+        public byte[] GetAsBytesPlus()
+        {
+            if (Size == -1)
+                return new byte[0];
+
+            byte[] bytes = new byte[Size+20];
+
+            foreach (KeyValuePair<int, byte[]> map in MemoryMaps)
+            {
+                Array.Copy(map.Value, 0, bytes, map.Key - StartOffset, map.Value.Length);
+            }
+
+            return bytes;
+        }
+
 
         public bool LoadFromBytes(byte[] bytes)
         {
