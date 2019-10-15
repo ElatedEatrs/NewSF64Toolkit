@@ -16,8 +16,6 @@ namespace NewSF64Toolkit.DataStructures.DMA
         public List<SFLevelObject> LevelObjects;
         public List<SFAdvancedObjectScript> LevelScripts;
 
-        public SFLevelObject newObj { get; private set; }
-
         public LevelDMAFile(byte[] data, int dmaIndex, int headerOffset, int objectOffset)
             : base(data, dmaIndex)
         {
@@ -53,7 +51,6 @@ namespace NewSF64Toolkit.DataStructures.DMA
 
             int levelObjectOffset = _levelInfoOffset;
 
-            int count;
             bool one = true;
             while (one)
             {
@@ -66,26 +63,11 @@ namespace NewSF64Toolkit.DataStructures.DMA
                 newObj.DListOffset = 0x00;
 
                 // if object id == 0xffff, break out because this marks end of data!
-                if (newObj.ID == 0xFFFF)
-                {
-                    levelObjectOffset += SFLevelObject.Size;
-                    newObj = new SFLevelObject(levelObjectOffset, data);
+                if (newObj.ID == 0xFFFF) break;
 
-                    // default dlist offset to 0
-                    newObj.DListOffset = 0x00;
-
-
-
-                    break;
-                }
                 levelObjectOffset += SFLevelObject.Size;
                 LevelObjects.Add(newObj);
-
             }
-            if (!_dmaData.TakeMemory(levelObjectOffset, SFLevelObject.Size, out data))
-                return false;
-
-
 
             return true;
         }
@@ -117,7 +99,7 @@ namespace NewSF64Toolkit.DataStructures.DMA
             }
 
             //Make the final level ending entry
-            ByteHelper.WriteUShort(0xFFFF, bytes, levelObjectOffset+16);
+            ByteHelper.WriteUShort(0xFFFF, bytes, _levelHeaderOffset + LevelHeader.Size - 2);
 
             return bytes;
         }
