@@ -57,14 +57,14 @@ namespace NewSF64Toolkit.DataStructures.DMA
 
             _dmaData.TakeMemory(LEVEL_INFO_OFFSETS_LOCATION, LEVEL_COUNT * sizeof(uint), out offsetData);
 
-            for (int i = 0; i < LEVEL_COUNT; i++)
+            for (int i = 0; i <= LEVEL_COUNT; i++)
             {
                 LevelInfoOffsets.Add(ByteHelper.ReadUInt(offsetData, i * sizeof(uint)));
             }
 
             _dmaData.TakeMemory(LEVEL_HEADER_OFFSETS_LOCATION, LEVEL_COUNT * sizeof(uint), out offsetData);
 
-            for (int i = 0; i < LEVEL_COUNT; i++)
+            for (int i = 0; i <= LEVEL_COUNT; i++)
             {
                 LevelHeaderOffsets.Add(ByteHelper.ReadUInt(offsetData, i * sizeof(uint)));
             }
@@ -132,7 +132,7 @@ namespace NewSF64Toolkit.DataStructures.DMA
         {
             byte[] bytes = base.GetAsBytes();
 
-            for (int i = 0; i < LEVEL_COUNT; i++)
+            for (int i = 0; i <= LEVEL_COUNT; i++)
             {
                 ByteHelper.WriteUInt(LevelInfoOffsets[i], bytes, LEVEL_INFO_OFFSETS_LOCATION + i * sizeof(uint));
                 ByteHelper.WriteUInt(LevelHeaderOffsets[i], bytes, LEVEL_HEADER_OFFSETS_LOCATION + i * sizeof(uint));
