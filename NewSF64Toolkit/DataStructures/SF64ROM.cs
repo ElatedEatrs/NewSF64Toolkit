@@ -277,7 +277,7 @@ namespace NewSF64Toolkit.DataStructures
                             entry = new DialogueDMAFile(dmaBytes, DMATable.Count);
                             _dialogueDMA = (DialogueDMAFile)entry;
                             break;
-                        //case 12: Appears broken right now, the Game Object table is set up differently than the other files. Possibly a prototype setup?
+                        case 12: //Appears broken right now, the Game Object table is set up differently than the other files. Possibly a prototype setup?
                         case 18:
                         case 19:
                         case 20:
